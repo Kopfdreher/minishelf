@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgavrilo <sgavrilo@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/08 17:47:29 by sgavrilo          #+#    #+#             */
-/*   Updated: 2025/06/08 18:35:23 by sgavrilo         ###   ########.fr       */
+/*   Created: 2025/06/13 19:57:09 by sgavrilo          #+#    #+#             */
+/*   Updated: 2025/06/13 19:57:11 by sgavrilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+// +1 for the \0
+//end of the string
 
-void	ft_putstr_fd(const char *s, int fd)
+char	*ft_strndup(const char *s, size_t n)
 {
-	unsigned int	i;
+	char	*dup;
+	size_t	len;
+	size_t	i;
 
-	if (!s)
-		return ;
 	i = 0;
-	while (s[i])
+	len = ft_strlen(s);
+	if (n < len)
+		len = n;
+	dup = malloc(len + 1);
+	if (!dup)
+		return (NULL);
+	while (i < len)
 	{
-		ft_putchar_fd(s[i], fd);
+		dup[i] = s[i];
 		i++;
 	}
+	dup[i] = '\0';
+	return (dup);
 }

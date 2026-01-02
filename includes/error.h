@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgavrilo <sgavrilo@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/08 17:47:29 by sgavrilo          #+#    #+#             */
-/*   Updated: 2025/06/08 18:35:23 by sgavrilo         ###   ########.fr       */
+/*   Created: 2026/01/02 19:50:22 by sgavrilo          #+#    #+#             */
+/*   Updated: 2026/01/02 19:50:26 by sgavrilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef ERROR_H
+# define ERROR_H
 
-void	ft_putstr_fd(const char *s, int fd)
-{
-	unsigned int	i;
+# include "defines.h"
 
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i])
-	{
-		ft_putchar_fd(s[i], fd);
-		i++;
-	}
-}
+void	put_error(t_error_type type, char *str, t_shell *shell);
+
+#endif

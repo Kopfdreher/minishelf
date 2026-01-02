@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_shell.c                                       :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgavrilo <sgavrilo@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/31 20:01:11 by sgavrilo          #+#    #+#             */
-/*   Updated: 2026/01/02 13:58:08 by sgavrilo         ###   ########.fr       */
+/*   Created: 2026/01/02 21:22:25 by sgavrilo          #+#    #+#             */
+/*   Updated: 2026/01/02 21:35:06 by sgavrilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_shell(t_shell *shell, char **envp)
+static const char	*get_error_type(t_error_type type)
 {
-	ft_memset(shell, 0, sizeof(t_shell));
-	shell->running = TRUE;
-	shell->exit_status = 0;
-	shell->tokens = NULL;
-	shell->env_array = NULL;
-	shell->cmd_list = NULL;
-	shell->original_stdin = dup(STDIN_FILENO);
-	shell->original_stdout = dup(STDOUT_FILENO);
-	shell->env_list = init_env(envp);
+	if (type == SYNTAX)
+		return ("minishell: syntax error: ");
+	return ("");
+}
+
+static int	get_error_num(t_error_type type)
+{
+	if (type == SYNTAX)
+		return (2);
+	return (0);
+}
+
+void	put_error(t_error_type type, char *str, t_shell *shell)
+{
+	ft_putstr_fd(get_error_type(type), 2);
+	ft_putstr_fd(str, 2);
+	shell->exit_status = get_error_num(type);
 }
