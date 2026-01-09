@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_shell.c                                       :+:      :+:    :+:   */
+/*   expand_token_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgavrilo <sgavrilo@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/31 20:01:11 by sgavrilo          #+#    #+#             */
-/*   Updated: 2026/01/09 20:19:02 by sgavrilo         ###   ########.fr       */
+/*   Created: 2026/01/09 21:49:29 by sgavrilo          #+#    #+#             */
+/*   Updated: 2026/01/09 21:56:02 by sgavrilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_shell(t_shell *shell, char **envp)
+int	expand_token_list(t_shell *shell)
 {
-	ft_memset(shell, 0, sizeof(t_shell));
-	shell->running = TRUE;
-	shell->original_stdin = dup(STDIN_FILENO);
-	shell->original_stdout = dup(STDOUT_FILENO);
-	shell->env_list = init_env(envp);
-	env_print(shell->env_list);
+	t_token	*current_token;
+
+	current_token = shell->tokens;
+	while (current_token)
+	{
+		if (expand_token(shell, &current_token) == FAILURE)
+			return (FAILURE);
+		current_token = current_token->next;
+	}
+	return (SUCCESS);
 }

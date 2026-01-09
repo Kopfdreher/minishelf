@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_shell.c                                       :+:      :+:    :+:   */
+/*   expand_exit_code.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgavrilo <sgavrilo@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/31 20:01:11 by sgavrilo          #+#    #+#             */
-/*   Updated: 2026/01/09 20:19:02 by sgavrilo         ###   ########.fr       */
+/*   Created: 2026/01/09 21:23:45 by sgavrilo          #+#    #+#             */
+/*   Updated: 2026/01/09 21:39:16 by sgavrilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_shell(t_shell *shell, char **envp)
+int	add_expanded_exit_code(t_token **token, int *i, int exit_code)
 {
-	ft_memset(shell, 0, sizeof(t_shell));
-	shell->running = TRUE;
-	shell->original_stdin = dup(STDIN_FILENO);
-	shell->original_stdout = dup(STDOUT_FILENO);
-	shell->env_list = init_env(envp);
-	env_print(shell->env_list);
+	char	*exit_str;
+	t_token	*exit_token;
+
+	*i += 1;
+	exit_str = ft_itoa(exit_code);
+	if (!exit_str)
+		return (FAILURE);
+	exit_token = new_token(exit_str, WORD, NO_QUOTE);
+	if (!exit_token)
+		return (free(exit_str), FAILURE);
+	add_token_to_back(&(*token)->expand_tokens, exit_token);
+	return (SUCCESS);
 }
