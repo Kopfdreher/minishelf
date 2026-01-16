@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_strarr.c                                      :+:      :+:    :+:   */
+/*   print_strarr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgavrilo <sgavrilo@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 16:25:15 by sgavrilo          #+#    #+#             */
-/*   Updated: 2026/01/15 12:21:00 by sgavrilo         ###   ########.fr       */
+/*   Created: 2026/01/07 15:22:41 by sgavrilo          #+#    #+#             */
+/*   Updated: 2026/01/14 21:17:36 by sgavrilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	free_strarr(char ***strarr)
+void	print_strarr(char **strarr)
 {
 	int	i;
 
-	i = 0;
-	if (!strarr || !*strarr)
+	if (!strarr)
 		return ;
-	while ((*strarr)[i])
+	i = 0;
+	while (strarr[i])
 	{
-		free((*strarr)[i]);
+		write(1, "[", 1);
+		write(1, strarr[i], ft_strlen(strarr[i]));
+		write(1, "] ", 2);
 		i++;
 	}
-	free(*strarr);
-	*strarr = NULL;
+	write(1, "\n", 1);
 }
