@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   built_in_pwd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgavrilo <sgavrilo@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: alago-ga <alago-ga@student.42berlin.d>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/02 19:50:22 by sgavrilo          #+#    #+#             */
-/*   Updated: 2026/01/16 16:03:41 by alago-ga         ###   ########.fr       */
+/*   Created: 2026/01/16 16:42:17 by alago-ga          #+#    #+#             */
+/*   Updated: 2026/01/16 16:54:05 by alago-ga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#include "minishell.h"
 
-# include "defines.h"
+int	ft_pwd(t_shell *shell)
+{
+	char	*pwd;
 
-void	put_error(t_error_type type, const char *str, t_shell *shell);
-
-#endif
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+	{
+		put_error(MALLOC, "malloc failed", shell);
+		return (FAILURE);
+	}
+	ft_printf("%s\n", pwd);
+	free(pwd);
+	return (SUCCESS);
+}
