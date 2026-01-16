@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_shell.c                                       :+:      :+:    :+:   */
+/*   expand_env_print.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgavrilo <sgavrilo@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/31 20:01:11 by sgavrilo          #+#    #+#             */
-/*   Updated: 2026/01/16 21:01:58 by alago-ga         ###   ########.fr       */
+/*   Created: 2026/01/08 21:17:54 by sgavrilo          #+#    #+#             */
+/*   Updated: 2026/01/08 21:45:17 by sgavrilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_shell(t_shell *shell, char **envp)
+void	env_print(t_env *env)
 {
-	ft_memset(shell, 0, sizeof(t_shell));
-	shell->running = TRUE;
-	shell->original_stdin = dup(STDIN_FILENO);
-	shell->original_stdout = dup(STDOUT_FILENO);
-	shell->env_list = init_env(envp);
-	env_print(shell->env_list);
+	t_token	*current_token;
+
+	while (env)
+	{
+		if (env->name)
+			ft_printf("Name: [%s] Token-Count: [%i]\n",
+				env->name, env->word_count);
+		current_token = env->tokens;
+		if (current_token)
+			ft_printf("Tokens:");
+		while (current_token)
+		{
+			ft_printf(" [%s]", current_token->value);
+			current_token = current_token->next;
+			if (!current_token)
+				ft_printf("\n\n");
+		}
+		env = env->next;
+	}
 }

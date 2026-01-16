@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_strarr.c                                      :+:      :+:    :+:   */
+/*   builtin_ft_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgavrilo <sgavrilo@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 16:25:15 by sgavrilo          #+#    #+#             */
-/*   Updated: 2026/01/15 12:21:00 by sgavrilo         ###   ########.fr       */
+/*   Created: 2026/01/15 13:58:36 by sgavrilo          #+#    #+#             */
+/*   Updated: 2026/01/16 19:50:30 by sgavrilo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	free_strarr(char ***strarr)
+int	ft_unset(t_shell *shell, char **args)
 {
-	int	i;
+	int		i;
+	t_env	*curr;
 
 	i = 0;
-	if (!strarr || !*strarr)
-		return ;
-	while ((*strarr)[i])
+	while (args[++i])
 	{
-		free((*strarr)[i]);
-		i++;
+		curr = get_env_node(shell->env_list, args[i]);
+		if (curr)
+		{
+			if (curr->prev)
+				curr->prev->next = curr->next;
+			if (curr->next)
+				curr->next->prev = curr->prev;
+			free_env_list(&curr);
+		}
 	}
-	free(*strarr);
-	*strarr = NULL;
+	return (SUCCESS);
 }
