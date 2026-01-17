@@ -45,7 +45,7 @@ static int	open_heredoc(t_redir *heredoc, t_shell *shell)
 	char	*eof;
 	int		expand;
 
-	eof = heredoc->file_tokens->value;
+	eof = heredoc->file;
 	fd = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	expand = FALSE;
 	read_heredoc(fd, expand, eof, shell);
@@ -58,17 +58,17 @@ static int	open_heredoc(t_redir *heredoc, t_shell *shell)
 static int	open_redirs(int *fd, t_redir *redir, t_shell *shell)
 {
 	if (redir->type == REDIR_IN)
-		*fd = open(redir->file_tokens->value, O_RDONLY);
+		*fd = open(redir->file, O_RDONLY);
 	else if (redir->type == REDIR_OUT)
-		*fd = open(redir->file_tokens->value,
+		*fd = open(redir->file,
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (redir->type == APPEND)
-		*fd = open(redir->file_tokens->value, 
+		*fd = open(redir->file, 
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (redir->type == HEREDOC)
 		*fd = open_heredoc(redir, shell);
 	if (*fd == ERROR)
-		return (put_error(OPEN, redir->file_tokens->value, shell), 1);
+		return (put_error(OPEN, redir->file, shell), 1);
 	return (0);
 }
 
