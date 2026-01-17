@@ -49,7 +49,7 @@ static void	exec_child(t_shell *shell, t_cmd *cmd)
 	char	*errorstr;
 
 	if (is_builtin(cmd) == TRUE)
-		exit (exec_builtin(cmd, shell));
+		exit(exec_builtin(cmd, shell)); // the child exits the builtins return
 	if (cmd->args && cmd->args[0])
 	{
 		ret = find_path(cmd, shell->env_list);
@@ -83,6 +83,9 @@ int	execute(t_shell *shell)
 	int		fd[2];
 	int		prev_fd;
 
+	/* check for exit, probably also necessary for CD
+	if (parent_must_exit(shell->cmd) == TRUE)
+		return (ft_exit(shell, shell->cmd->args)); */
 	cmd = shell->cmd_list;
 	prev_fd = -1;
 	while (cmd)
